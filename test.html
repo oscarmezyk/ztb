@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <script src="canvasjs.min.js"></script>
+</head>
+<body>
+  <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+  <script>
+    window.onload = function () {
+      var chart = new CanvasJS.Chart("chartContainer", {
+        animationEnabled: true,
+        theme: "light2",
+        title: {
+          text: "Simple Line Chart"
+        },
+        data: [{
+          type: "line",
+          dataPoints: [
+            { y: 450 },
+            { y: 414 },
+            { y: 520 },
+            { y: 460 },
+            { y: 450 },
+            { y: 500 },
+            { y: 480 },
+            { y: 480 },
+            { y: 410 },
+            { y: 500 },
+            { y: 480 },
+            { y: 510 }
+          ]
+        }]
+      });
+      chart.render();
+    }
+  </script>
+</body>
+</html>
