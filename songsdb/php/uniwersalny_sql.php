@@ -6,11 +6,17 @@
 <h1>Prosze wprowadzic parametry bazy i zapytania</h1>
 <p><center>
 	<form method="post" action="<?= $_SERVER['PHP_SELF'] ?>">
-	uzytkownik:<input type="text" name="suser" size="10" value="<?= isset($suser) ? $suser : '' ?>">&nbsp;
-	serwer:	<input type="text" name="sserver" size="15" value="localhost"><br>
-	baza: <input type="text" name="sdbase" size="10" value="<?= isset($sdbase) ? $sdbase : '' ?>">&nbsp;
-	haslo:<input type="password" name="spass" size="10" value="<?= isset($spass) ? $spass : '' ?>">&nbsp;
-	<br>zapytanie: <br><textarea name="squery" rows="1" cols="60" wrap="physical"> SELECT version(); </textarea><br>
+	uzytkownik:	
+		<input type="text" name="suser" size="10" value="<?= isset($suser) ? $suser : '' ?>">&nbsp;
+	serwer:	
+		<input type="text" name="sserver" size="15" value="localhost"><br>
+	baza:
+		<input type="text" name="sdbase" size="10" value="<?= isset($sdbase) ? $sdbase : '' ?>">&nbsp;
+	haslo:
+		<input type="password" name="spass" size="10" value="<?= isset($spass) ? $spass : '' ?>">&nbsp;
+
+	<br>zapytanie:	
+	<br><textarea name="squery" rows="1" cols="60" wrap="physical"> SELECT version(); </textarea><br>
 	
 	<br><input type="submit" value="ZAPYTAJ">
 </center></p>
