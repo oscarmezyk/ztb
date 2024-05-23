@@ -1,4 +1,6 @@
+
 <?php
+	// this script just for debugging purpose, remove later
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (!empty($_POST)) {
             echo '<ul>';
@@ -32,11 +34,6 @@ error_reporting(E_ALL);
 
 	// connect to database
 	$db = mysqli_connect('mysql.agh.edu.pl', 'wgrodzi1', 'LCUseesUrffV5sbq', 'wgrodzi1', '3306');
-
-	// GET NOUSER DATA
-	if (isset($_POST['nouser'])) {
-		$_SESSION['nouser'] = True;
-	}
 
 	// REGISTER USER
 	if (isset($_POST['reg_user'])) {

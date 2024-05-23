@@ -13,14 +13,9 @@
 		<h2>Home Page</h2>
 	</div>
 
-	<div class="content">
+	<div id="content_id" class="content">
 	<?php
 		
-		if (!isset($_SESSION['nouser'])) {
-			$_SESSION['msg'] = "You must log in first";
-			header('location: login.php');
-		}
-
 		$query = "SELECT genres.id, genres.name, (SELECT count(*) FROM songs WHERE songs.genre_id=genres.id) AS count FROM genres;";
 		$result = $db->query($query);
 
@@ -34,12 +29,11 @@
 
 		$result->free();
 		$db->close();
-		echo "<hr><a href=\"index.php\">
-				Zaloguj się</a>";
+		echo "<center><b><a href=\"index.php\">Zaloguj lub zarejestruj się!</a></b></center>";
 	?>
 	</div>
 
-    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+    <div id="chartContainer" class="content" style="height: 370px; width: 80%;"></div>
     <script>
         window.onload = function () {
             var chart = new CanvasJS.Chart("chartContainer", {
@@ -50,18 +44,11 @@
                 data: [{
                     type: "pie",
                     startAngle: 240,
-                    yValueFormatString: "##0.00\"%\"",
+                    yValueFormatString: "##0",
                     indexLabel: "{label} {y}",
                     dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
                 }]
             });
-
-            // Add click event listener
-            chart.options.data[0].click = function(e) {
-                var genreId = e.dataPoint.id;
-                window.location.href = 'songs.php?genre_id=' + genreId;
-            };
-
             chart.render();
         }
     </script>
