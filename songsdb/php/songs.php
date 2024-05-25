@@ -1,51 +1,54 @@
-<?php include('server.php') ?>
-<?php
-
-$genre_id = intval($_GET['genre_id']);
-$sql = "SELECT songs.id, songs.title, bands.name AS band_name, bands.id AS band_id FROM songs 
-        JOIN bands ON songs.band_id = bands.id 
-        WHERE songs.genre_id = $genre_id";
-$result = $db->query($sql);
-
-$sql_genre = "SELECT name FROM genres WHERE id = $genre_id";
-$genre_result = $db->query($sql_genre);
-$genre = $genre_result->fetch_assoc();
-?>
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Songs in <?php echo $genre['name']; ?></title>
-    <style>
-        table { width: 70%; border-collapse: collapse; }
-        table, th, td { border: 1px solid black; }
-        th, td { padding: 10px; text-align: left; }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Songs</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Songs in <?php echo $genre['name']; ?></h1>
-    <table>
-        <tr>
-            <th>Song Title</th>
-            <th>Band</th>
-        </tr>
+    <div class="navbar">
+        
+        <a href="songs.php">Songs</a>
+        <a href="cart.php">Cart</a>
+        <a href="index.php">Logout</a>
+        <a href="about.php">About</a>
+    </div>
+    <div class="content">
+        <h2>Available Songs</h2>
         <?php
-        if ($result->num_rows > 0) {
-            while($row = $result->fetch_assoc()) {
-                echo "<tr>
-                        <td>" . $row['title'] . "</td>
-                        <td><a href='band.php?band_id=" . $row['band_id'] . "'>" . $row['band_name'] . "</a></td>
-                      </tr>";
-            }
-        } else {
-            echo "<tr><td colspan='2'>No songs found for this genre</td></tr>";
+        session_start();
+        if (!isset($_SESSION['username'])) {
+            header("Location: login.php");
+            exit();
         }
+
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $database = "pageusers";
+
+        $conn = new mysqli($servername, $username, $password, $database);
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $sql = "SELECT * FROM songs";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            echo "<ul class='song-list'>";
+            while($row = $result->fetch_assoc()) {
+                echo "<li>" . $row['song_name'] . " - " . $row['artist'] . " <a href='add_to_cart.php?song_id=" . $row['id'] . "'>Add to Cart</a></li>";
+            }
+            echo "</ul>";
+        } else {
+            echo "<p>No songs available</p>";
+        }
+
+        $conn->close();
         ?>
-    </table>
-    <a href="genres.php">Back to Genres</a>
+    </div>
 </body>
 </html>
-
-<?php
-$db->close();
-?>

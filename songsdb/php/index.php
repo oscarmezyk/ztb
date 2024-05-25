@@ -1,48 +1,66 @@
-<?php 
-	session_start(); 
-
-	if (!isset($_SESSION['username'])) {
-		$_SESSION['msg'] = "You must log in first";
-		header('location: login.php');
-	}
-
-	if (isset($_GET['logout'])) {
-		session_destroy();
-		unset($_SESSION['username']);
-		header("location: login.php");
-	}
-
-?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>Home</title>
-	<link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strona główna</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-	<div class="header">
-		<h2>Home Page</h2>
-	</div>
-	<div class="content">
+    <div class="navbar">
+        <a href="index.php">Home</a>
+        <a href="login.php">Login</a>
+        <a href="register.php">Register</a>
+        <a href="adminlogin.php">Admin</a>
+        <a href="about.php">About</a>
+    </div>
 
-		<!-- notification message -->
-		<?php if (isset($_SESSION['success'])) : ?>
-			<div class="error success" >
-				<h3>
-					<?php 
-						echo $_SESSION['success']; 
-						unset($_SESSION['success']);
-					?>
-				</h3>
-			</div>
-		<?php endif ?>
+    <div class="content">
+        <h2>Wyszukaj interesujące Cie piosenki</h2>
+        <?php
+        session_start();
 
-		<!-- logged in user information -->
-		<?php  if (isset($_SESSION['username'])) : ?>
-			<p>Welcome <strong><?php echo $_SESSION['username']; ?></strong></p>
-			<p> <a href="index.php?logout='1'" style="color: red;">logout</a> </p>
-		<?php endif ?>
-	</div>
-		
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $database = "pageusers";
+
+        $conn = new mysqli($servername, $username, $password, $database);
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        // Obsługa wyszukiwania
+        $search_query = "";
+        if (isset($_GET['search'])) {
+            $search_query = $_GET['search'];
+            $sql = "SELECT * FROM songs WHERE song_name LIKE '%$search_query%' OR artist LIKE '%$search_query%'";
+        } else {
+            $sql = "SELECT * FROM songs";
+        }
+
+        $result = $conn->query($sql);
+        ?>
+        <form action="index.php" method="get" class="search-form">
+            <input type="text" name="search" placeholder="Search songs" value="<?php echo htmlspecialchars($search_query); ?>">
+            <input type="submit" value="Search">
+        </form>
+        <div class="song-container">
+        <?php
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                echo "<div class='song'>";
+                echo "<h3>" . $row['song_name'] . "</h3>";
+                echo "<p>Artist: " . $row['artist'] . "</p>";
+                echo "</div>";
+            }
+        } else {
+            echo "<p>No songs available</p>";
+        }
+        $conn->close();
+        ?>
+        </div>
+    </div>
 </body>
 </html>

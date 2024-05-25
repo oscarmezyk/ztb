@@ -1,41 +1,56 @@
-<?php include('server.php') ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>Registration system PHP and MySQL</title>
-	<link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rejestracja</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-	<div class="header">
-		<h2>Register</h2>
-	</div>
-	
-	<form method="post" action="register.php">
+    <div class="navbar">
+        <a href="index.php">Home</a>
+        <a href="login.php">Login</a>
+        <a href="register.php">Register</a>
+        <a href="adminlogin.php">Admin</a>
+        <a href="about.php">About</a>
+    </div>
+    <div class="form-container">
+        <form action="register.php" method="post">
+            <h2>Register</h2>
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="submit" name="register" value="Register">
+        </form>
+    </div>
 
-		<?php include('errors.php'); ?>
+    <?php
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $database = "pageusers";
 
-		<div class="input-group">
-			<label>Username</label>
-			<input type="text" name="username" value="<?php echo $username; ?>">
-		</div>
-		<div class="input-group">
-			<label>Email</label>
-			<input type="email" name="email" value="<?php echo $email; ?>">
-		</div>
-		<div class="input-group">
-			<label>Password</label>
-			<input type="password" name="password_1">
-		</div>
-		<div class="input-group">
-			<label>Confirm password</label>
-			<input type="password" name="password_2">
-		</div>
-		<div class="input-group">
-			<button type="submit" class="btn" name="reg_user">Register</button>
-		</div>
-		<p>
-			Already a member? <a href="login.php">Sign in</a>
-		</p>
-	</form>
+        $conn = new mysqli($servername, $username, $password, $database);
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        $user = $_POST['username'];
+        $email = $_POST['email'];
+        $pass = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+        $sql = "INSERT INTO users (username, email, password) VALUES ('$user', '$email', '$pass')";
+
+        if ($conn->query($sql) === TRUE) {
+            echo "<p>New record created successfully</p>";
+        } else {
+            echo "<p>Error: " . $sql . "<br>" . $conn->error . "</p>";
+        }
+
+        $conn->close();
+    }
+    ?>
 </body>
 </html>
