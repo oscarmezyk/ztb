@@ -2,10 +2,10 @@
 session_start();
 
 // Połączenie z bazą danych
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "pageusers";
+$servername = "mysql.agh.edu.pl";
+$username = "wgrodzi1";
+$password = "LCUseesUrffV5sbq";
+$database = "wgrodzi1";
 
 $conn = new mysqli($servername, $username, $password, $database);
 
@@ -48,14 +48,21 @@ $conn->close();
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="navbar">
+        <a href="index.php">Home</a>
+        <a href="login.php">Login</a>
+        <a href="register.php">Register</a>
+        <a href="adminlogin.php">Admin</a>
+        <a href="about.php">About</a>
+    </div>
     <div class="form-container">
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post"> <!-- Zmiana akcji formularza -->
-            <h2>Login</h2>
-            <input type="text" name="username" placeholder="Username" required>
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="login-form">
+            <h2>Admin login</h2>
+            <input type="text" name="username" placeholder="Operator name" required>
             <input type="password" name="password" placeholder="Password" required>
             <input type="submit" name="login" value="Login">
             <?php if (!empty($login_message)): ?>
-                <p><?php echo $login_message; ?></p>
+                <p class="login-message"><?php echo $login_message; ?></p>
             <?php endif; ?>
         </form>
     </div>
