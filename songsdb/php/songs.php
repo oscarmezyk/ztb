@@ -1,11 +1,20 @@
 <?php include('server.php') ?>
 <?php
-
+if ($db->connect_error) {
+        echo "<hr>An error occurred! <br/>";
+        echo "Error: " . $db->connect_error;
+        exit;
+}
 $genre_id = intval($_GET['genre_id']);
 $sql = "SELECT songs.id, songs.title, bands.name AS band_name, bands.id AS band_id FROM songs 
         JOIN bands ON songs.band_id = bands.id 
         WHERE songs.genre_id = $genre_id";
 $result = $db->query($sql);
+if (!$result) {
+    echo "An error occurred.\n";
+    echo "Error: " . $db->error;
+    exit;
+}
 
 $sql_genre = "SELECT name FROM genres WHERE id = $genre_id";
 $genre_result = $db->query($sql_genre);

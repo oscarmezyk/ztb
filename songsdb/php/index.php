@@ -18,6 +18,7 @@
 <head>
 	<title>Home</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
+	<meta charset="UTF-8">
 </head>
 <body>
 	<div class="header">
@@ -42,6 +43,16 @@
 			<p>Welcome <strong><?php echo $_SESSION['username']; ?></strong></p>
 			<p> <a href="index.php?logout='1'" style="color: red;">logout</a> </p>
 		<?php endif ?>
+	</div>
+
+	<div class="content">
+		<?php  if (isset($_SESSION['username'])) : ?>
+			<p> <a href="favourites.php"> Ulubione </a>
+		<?php endif ?>
+
+			<p> <a href="genres.php"> Przeglądaj gatunki </a>
+			<p> <a href="songs.php"> Przeglądaj utwory </a>
+			<p> <a href="band.php"> Przeglądaj zespoły </a>
 	</div>
 		
 </body>
