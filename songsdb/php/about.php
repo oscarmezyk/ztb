@@ -21,8 +21,8 @@
         <div class="card">
             <p>Ta strona została stworzona przez zespół:</p>
             <div><strong>Wojciech Godzicki</strong> - Konfiguracja bazy danych na serwerze AGH, rozwój backendu</div>
-            <div><strong>Oskar</strong> - Tworzenie kodu PHP i konfiguracja serwera na stronie AGH, rozwój backendu</div>
-            <div><strong>Sebastian</strong> - Rozwój backendu i frontendu</div>
+            <div><strong>Oskar Mężyk</strong> - Tworzenie kodu PHP i konfiguracja serwera na stronie AGH, rozwój backendu</div>
+            <div><strong>Sebastian Brzeziński</strong> - Rozwój backendu i frontendu</div>
             <div><strong>Adela Hopek</strong> - Rozwój frontendu</div>
         </div>
     </div>
